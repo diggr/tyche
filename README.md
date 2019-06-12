@@ -35,7 +35,7 @@ $ tyche check
 
 Check specific directory:
 ```zsh
-$ tyche check 
+$ tyche check DIRECTORY 
 ```
 
 Exclude provit/provenance checks
