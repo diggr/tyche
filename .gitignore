@@ -1,0 +1,14 @@
+*.swp
+__pycache__/
+.pytest_cache
+.coverage
+.vscode/
+.idea
+
+*.egg-info/
+*.egg
+.eggs
+*.py[cod]
+*.so
+*~
+
