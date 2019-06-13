@@ -46,7 +46,7 @@ def walk_path_dict(node, this_path):
         {"readme": True, "provit": True, "skip": [], "id": 4},
     ],
 )
-def test_dir(tmp_path_factory, request):
+def data_dir(tmp_path_factory, request):
     base_path = tmp_path_factory.mktemp("correct").resolve()
     for sub_path in walk_path_dict(TEST_DIRECTORY_STRUCTURE, base_path):
         sub_path.mkdir()
@@ -72,19 +72,29 @@ def test_dir(tmp_path_factory, request):
     "args, expected_exit_codes",
     [
         (["check"], [1, 1, 1, 1, 0]),
+        (["check", "--non-recursive"], [1, 1, 1, 0, 0]),
         (["check", "--no-provit"], [1, 0, 1, 1, 0]),
+        (["check", "--no-provit", "--non-recursive"], [1, 0, 1, 0, 0]),
         (["check", "--no-readme"], [1, 1, 0, 1, 0]),
+        (["check", "--no-readme", "--non-recursive"], [1, 1, 0, 0, 0]),
     ],
 )
-def test_check(test_dir, args, expected_exit_codes):
-    base_path, params = test_dir
+def test_check(data_dir, args, expected_exit_codes):
+    base_path, params = data_dir
     runner = CliRunner()
     result = runner.invoke(cli, args + [str(base_path)])
     assert result.exit_code == expected_exit_codes[params["id"]]
 
-def test_report(test_dir):
-    base_path, params = test_dir
+@pytest.mark.parametrize(
+    "args, expected_exit_codes",
+    [
+        (["report"], [0, 0, 0, 0, 0]),
+        (["report", "--non-recursive"], [0, 0, 0, 0, 0]),
+    ],
+)
+def test_report(data_dir, args, expected_exit_codes):
+    base_path, params = data_dir
     runner = CliRunner()
-    result = runner.invoke(cli, ["report", str(base_path)])
-    assert result.exit_code == 0
+    result = runner.invoke(cli, args + [str(base_path)])
+    assert result.exit_code == expected_exit_codes[params["id"]]
     assert isinstance(json.loads(result.output), dict)
