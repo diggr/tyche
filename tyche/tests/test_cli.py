@@ -81,16 +81,16 @@ def test_check(data_dir, args, expected_exit_codes):
     result = runner.invoke(cli, args + [str(base_path)])
     assert result.exit_code == expected_exit_codes[params["id"]]
 
-@pytest.mark.parametrize(
-    "args, expected_exit_codes",
-    [
-        (["report"], [0, 0, 0, 0, 0]),
-        (["report", "--non-recursive"], [0, 0, 0, 0, 0]),
-    ],
-)
-def test_report(data_dir, args, expected_exit_codes):
-    base_path, params = data_dir
-    runner = CliRunner()
-    result = runner.invoke(cli, args + [str(base_path)])
-    assert result.exit_code == expected_exit_codes[params["id"]]
-#    assert isinstance(json.loads(result.output), dict)
+# @pytest.mark.parametrize(
+#     "args, expected_exit_codes",
+#     [
+#         (["report"], [0, 0, 0, 0, 0]),
+#         (["report", "--non-recursive"], [0, 0, 0, 0, 0]),
+#     ],
+# )
+# def test_report(data_dir, args, expected_exit_codes):
+#     base_path, params = data_dir
+#     runner = CliRunner()
+#     result = runner.invoke(cli, args + [str(base_path)])
+#     assert result.exit_code == expected_exit_codes[params["id"]]
+#     assert isinstance(json.loads(result.output), dict)
