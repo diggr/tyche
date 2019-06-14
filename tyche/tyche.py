@@ -34,6 +34,8 @@ class ProvitChecker:
                 prov = Provenance(df)
                 if not prov.tree():
                     return False
+            else:
+                return False
         return True
 
 def check_directory(directory, no_provit, no_readme, non_recursive):
@@ -44,6 +46,8 @@ def check_directory(directory, no_provit, no_readme, non_recursive):
         checker_list.append(ReadmeChecker)
     c = Checker(directory, checker_list, not non_recursive)
     c.run_checks()
+    from pprint import pprint
+    pprint(c.checked_dirs)
     return c.success
     
 
