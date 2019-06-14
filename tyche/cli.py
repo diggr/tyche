@@ -20,9 +20,7 @@ def cli():
 def check(directory, no_provit, no_readme, non_recursive):
     if check_directory(directory, no_provit, no_readme, non_recursive):
         exit(0)
-        print("Success!")
     else:
-        print("Failure!")
         exit(1)
 
 @cli.command()
