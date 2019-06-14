@@ -43,7 +43,7 @@ def walk_path_dict(node, this_path):
     ],
 )
 def data_dir(tmp_path_factory, request):
-    base_path = tmp_path_factory.mktemp("correct").resolve()
+    base_path = tmp_path_factory.mktemp("data_dir").resolve()
     for sub_path in walk_path_dict(TEST_DIRECTORY_STRUCTURE, base_path):
         sub_path.mkdir()
         dirname = sub_path.parts[-1]
@@ -59,9 +59,10 @@ def data_dir(tmp_path_factory, request):
 
         if request.param["provit"] and dirname not in request.param["skip"]:
             prov = Provenance(data_file)
+            prov.add(agents=["softwaretest"], activity="testing", description="testing...")
             prov.save()
 
-    return base_path, request.param
+    return base_path / "data", request.param
 
 
 @pytest.mark.parametrize(
