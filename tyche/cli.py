@@ -9,10 +9,12 @@ from pprint import pprint
 from sys import exit
 from .tyche import check_directory, create_report
 
+
 @click.group()
 def cli():
     init()
     pass
+
 
 @cli.command()
 @click.option("--no-provit", is_flag=True, default=False)
@@ -22,7 +24,9 @@ def cli():
 @click.option("--omit-correct", is_flag=True, default=False)
 @click.argument("directory", default=".")
 def check(directory, no_provit, no_readme, non_recursive, quiet, omit_correct):
-    success, checked_dirs = check_directory(directory, no_provit, no_readme, non_recursive)
+    success, checked_dirs = check_directory(
+        directory, no_provit, no_readme, non_recursive
+    )
     if not quiet:
         for dirname, check_results in checked_dirs.items():
             for name, result in check_results.items():
@@ -31,13 +35,14 @@ def check(directory, no_provit, no_readme, non_recursive, quiet, omit_correct):
                     break
                 color = "✔️  " + Fore.GREEN
             if omit_correct and color.startswith("✔️ "):
-                continue    
+                continue
             print(color + dirname)
 
     if success:
         exit(0)
     else:
         exit(1)
+
 
 @cli.command()
 @click.option("--non-recursive", is_flag=True, default=False)

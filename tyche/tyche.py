@@ -6,8 +6,9 @@ from collections import defaultdict
 from pathlib import Path
 from provit import Provenance
 
+
 class ReadmeChecker:
-    
+
     id_string = "readme"
     glob_string = "README*"
 
@@ -18,17 +19,22 @@ class ReadmeChecker:
                 return True
         return False
 
+
 class ProvitChecker:
-    
+
     id_string = "provit"
     glob_string = "*.prov"
 
     @staticmethod
     def check_path(directory):
-        all_files = [ f for f in directory.glob("*") if f.is_file() ]
-        exclude_files = [ f for f in directory.glob(ReadmeChecker.glob_string) ]
-        prov_files = [ f for f in directory.glob(ProvitChecker.glob_string) if f.is_file() ]
-        data_files = [ f for f in all_files if f not in prov_files and f not in exclude_files ]
+        all_files = [f for f in directory.glob("*") if f.is_file()]
+        exclude_files = [f for f in directory.glob(ReadmeChecker.glob_string)]
+        prov_files = [
+            f for f in directory.glob(ProvitChecker.glob_string) if f.is_file()
+        ]
+        data_files = [
+            f for f in all_files if f not in prov_files and f not in exclude_files
+        ]
         for df in data_files:
             if directory.joinpath("{}.prov".format(df.parts[-1])).is_file():
                 prov = Provenance(df)
@@ -37,6 +43,7 @@ class ProvitChecker:
             else:
                 return False
         return True
+
 
 def check_directory(directory, no_provit, no_readme, non_recursive):
     checker_list = []
@@ -47,7 +54,7 @@ def check_directory(directory, no_provit, no_readme, non_recursive):
     c = Checker(directory, checker_list, not non_recursive)
     c.run_checks()
     return c.success, c.checked_dirs
-    
+
 
 def create_report(directory, non_recursive):
     c = Checker(directory, [ProvitChecker, ReadmeChecker], not non_recursive)
@@ -56,7 +63,6 @@ def create_report(directory, non_recursive):
 
 
 class Checker:
-
     def __init__(self, directory, checker_list, recursive):
         self.directory = Path(directory)
         self.checker_list = checker_list

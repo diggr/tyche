@@ -59,7 +59,9 @@ def data_dir(tmp_path_factory, request):
 
         if request.param["provit"] and dirname not in request.param["skip"]:
             prov = Provenance(data_file)
-            prov.add(agents=["softwaretest"], activity="testing", description="testing...")
+            prov.add(
+                agents=["softwaretest"], activity="testing", description="testing..."
+            )
             prov.save()
 
     return base_path / "data", request.param
@@ -82,12 +84,10 @@ def test_check(data_dir, args, expected_exit_codes):
     result = runner.invoke(cli, args + [str(base_path)])
     assert result.exit_code == expected_exit_codes[params["id"]]
 
+
 @pytest.mark.parametrize(
     "args, expected_exit_codes",
-    [
-        (["report"], [0, 0, 0, 0, 0]),
-        (["report", "--non-recursive"], [0, 0, 0, 0, 0]),
-    ],
+    [(["report"], [0, 0, 0, 0, 0]), (["report", "--non-recursive"], [0, 0, 0, 0, 0])],
 )
 def test_report(data_dir, args, expected_exit_codes):
     base_path, params = data_dir
