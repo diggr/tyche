@@ -77,10 +77,10 @@ $ tyche report [DIRECTORY]
 ```
 
 You can directly pipe the result into a json processor, e.g. *json\_pp* to 
-disply it.
+display it.
 
 ```zsh
-tyche report /media/v/Diggr/_ARCHIV | json_pp
+$ tyche report /media/v/Diggr/_ARCHIV | json_pp
 ```
 
 This will result in this output:
