@@ -4,20 +4,37 @@ tyche is a command line tool, which recursively checks a directory and all of it
 """
 import click
 
+from colorama import Fore, Back, Style, init
+from pprint import pprint
 from sys import exit
 from .tyche import check_directory, create_report
 
 @click.group()
 def cli():
+    init()
     pass
 
 @cli.command()
 @click.option("--no-provit", is_flag=True, default=False)
 @click.option("--no-readme", is_flag=True, default=False)
 @click.option("--non-recursive", is_flag=True, default=False)
+@click.option("--quiet", is_flag=True, default=False)
+@click.option("--omit-correct", is_flag=True, default=False)
 @click.argument("directory", default=".")
-def check(directory, no_provit, no_readme, non_recursive):
-    if check_directory(directory, no_provit, no_readme, non_recursive):
+def check(directory, no_provit, no_readme, non_recursive, quiet, omit_correct):
+    success, checked_dirs = check_directory(directory, no_provit, no_readme, non_recursive)
+    if not quiet:
+        for dirname, check_results in checked_dirs.items():
+            for name, result in check_results.items():
+                if not result:
+                    color = "❌ " + Fore.RED
+                    break
+                color = "✔️  " + Fore.GREEN
+            if omit_correct and color.startswith("✔️ "):
+                continue    
+            print(color + dirname)
+
+    if success:
         exit(0)
     else:
         exit(1)
