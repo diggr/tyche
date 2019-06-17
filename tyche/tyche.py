@@ -28,7 +28,7 @@ class ProvitChecker:
         all_files = [ f for f in directory.glob("*") if f.is_file() ]
         exclude_files = [ f for f in directory.glob(ReadmeChecker.glob_string) ]
         prov_files = [ f for f in directory.glob(ProvitChecker.glob_string) if f.is_file() ]
-        data_files = [ f for f in all_files if f not in prov_files and f not in exclude_files ]  
+        data_files = [ f for f in all_files if f not in prov_files and f not in exclude_files ]
         for df in data_files:
             if directory.joinpath("{}.prov".format(df.parts[-1])).is_file():
                 prov = Provenance(df)
