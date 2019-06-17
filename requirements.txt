@@ -5,16 +5,16 @@
 #    make update-requirements
 #
 click==7.0
-flask-cors==3.0.7         # via provit
-flask==1.0.2              # via flask-cors, provit
+flask-cors==3.0.8         # via provit
+flask==1.0.3              # via flask-cors, provit
 isodate==0.6.0            # via provit, rdflib
 itsdangerous==1.1.0       # via flask, provit
 jinja2==2.10.1            # via flask, provit
 markupsafe==1.1.1         # via jinja2, provit
-provit==1.0.1
+provit==1.0.2
 pyparsing==2.4.0          # via provit, rdflib
-pyyaml==5.1               # via provit
+pyyaml==5.1.1             # via provit
 rdflib-jsonld==0.4.0      # via provit
 rdflib==4.2.2             # via provit, rdflib-jsonld
 six==1.12.0               # via flask-cors, isodate, provit
-werkzeug==0.15.2          # via flask, provit
+werkzeug==0.15.4          # via flask, provit
