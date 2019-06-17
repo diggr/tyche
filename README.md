@@ -26,31 +26,76 @@ Install the latest version from github:
 $ pip install git+https://github.com/diggr/tyche
 ```
 
-## Usage
+## Quickstart
 
-Check current directory, including all subdirectories:
+A directory can be checked, by simply calling *tyche check*. If no directory
+is supplied, the current working directory will be checked. 
+
 ```zsh
-$ tyche check
+$ tyche check [DIRECTORY]
 ```
 
-Check specific directory:
+Directories which passed the checks will be displayed in green, failed 
+directories will be displayed in red. If at least one subdirectory failed
+one check, the return code of tyche check will be *1*, else *0*.
+
+To show all possible commands and options invoke:
+
 ```zsh
-$ tyche check DIRECTORY 
+$ tyche --help
 ```
 
-Exclude provit/provenance checks
+## Check Command
+
+To disable checks, simply exclude via the command line option, e.g. to diable 
+provenance checks enter: 
+
 ```zsh
-$ tyche --no-provit check DIRECTORY
+$ tyche --no-provit check [DIRECTORY]
 ```
 
-Exclude README checks:
+Option | Result
+------ | ------
+*--no-provit* | Disable the check for provenance files.
+*--no-readme* | Disable the check for README files.
+
+There are some options to tweak the output:
+
+Option | Result
+------ | ------
+*--quiet* | No output at all. 
+*--omit-correct* | Correct / Passing directories will not be displayed.
+*--non-recursive* | Subdirectories of the given directory are omitted. 
+
+## Report Command
+
+The report command will return a json dict, with specific information
+about all directories and the checks they passed or failed. 
+
 ```zsh
-$ tyche --no-readme check DIRECTORY
+$ tyche report [DIRECTORY]
 ```
 
-Just check the current directory, i.e. exclude subfolders:
+You can directly pipe the result into a json processor, e.g. *json\_pp* to 
+disply it.
+
 ```zsh
-$ tyche --non-recursive check DIRECTORY
+tyche report /media/v/Diggr/_ARCHIV | json_pp
+```
+
+This will result in this output:
+
+```json
+{
+   "/media/v/Diggr/_ARCHIV/Datenquellen/UB-Spielesammlung/2016-04" : {
+      "readme" : false,
+      "provit" : false
+   },
+   "/media/v/Diggr/_ARCHIV/Datenquellen/VGChartz" : {
+      "provit" : true,
+      "readme" : true
+   }
+}
 ```
 
 ## Copyright
