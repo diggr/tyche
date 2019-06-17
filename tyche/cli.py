@@ -4,7 +4,6 @@ tyche is a command line tool, which recursively checks a directory and all of it
 """
 import click
 
-from pprint import pprint
 from sys import exit
 from .tyche import check_directory, create_report
 
