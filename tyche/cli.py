@@ -9,6 +9,8 @@ from pprint import pprint
 from sys import exit
 from .tyche import check_directory, create_report
 
+FAIL_EMOJI = "💔"
+SUCCESS_EMOJI = "💚"
 
 @click.group()
 def cli():
@@ -31,9 +33,9 @@ def check(directory, no_provit, no_readme, non_recursive, quiet, omit_correct):
         for dirname, check_results in checked_dirs.items():
             for name, result in check_results.items():
                 if not result:
-                    color = "❌ " + Fore.RED
+                    color = FAIL_EMOJI + " " + Fore.RED
                     break
-                color = "✔️  " + Fore.GREEN
+                color = SUCCESS_EMOJI + " " + Fore.GREEN
             if omit_correct and color.startswith("✔️ "):
                 continue
             print(color + dirname)
